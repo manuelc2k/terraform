@@ -17,10 +17,13 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'id_rsa.pub'
 - task: TerraformCLI@0
   inputs:
     command: 'init'
-    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) ssh_public_key=$()'''
+    commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) ssh_public_key=$(publickey.securefile)'''
     backendType: 'azurerm'
     backendServiceArm: 'Azure Resource Manager'
     backendAzureRmResourceGroupName: 'east-us-1'
